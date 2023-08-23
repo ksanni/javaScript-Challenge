@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #won,
+      #low,
+      #high {
+        display: none;
+      }
+      #start {
+        cursor: not-allowed;
+      }
+      body {
+        display: grid;
+        place-items: center;
+        background-image: url(./wallpaper.jpg);
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: 0rem -12rem;
+      }
+      .inpt {
+        background-color: transparent;
+        font-size: 18px;
+        width: 334px;
+        height: 21px;
+        padding: 12px;
+        margin-top: 112px;
+      }
+      .button_Section {
+        margin-top: 23px;
+      }
+      .btn {
+        width: 112px;
+        padding: 8px;
+      }
+      p {
+        font-size: 24px;
+      }
+      h1 {
+        font-size: 32px;
+      }
+      /* #congrats{
+        display: none;
+        color:red;
+        font-size: 54px;
+            
+      } */
+    </style>
+  </head>
+  <body>
+    <h1>Enter A Guess Between 0 To 100</h1>
+    <input
+      id="inputValue"
+      class="inpt"
+      oninput="inputFun(event)"
+      type="number"
+      placeholder="Enter a number"
+      min="0"
+      max="100"
+      required
+      autofocus
+    />
+    <div class="button_Section">
+      <button id="submit" class="btn" onclick="submitFun()">Submit</button>
+      <button id="start" class="btn" onclick="startFun()" disabled>
+        Start Game
+      </button>
+    </div>
+    <p id="won">You won!</p>
+    <p id="low">Too Low!</p>
+    <p id="high">Too High!</p>
+    <p id="guessNum"></p>
+    <p id="looser"></p>
+    <!-- <p id="congrats">Congratulation</p> -->
+    <script>
+      const inputValue = document.getElementById("inputValue");
+      const submit = document.getElementById("submit");
+      const start = document.getElementById("start");
+      const won = document.getElementById("won");
+      const low = document.getElementById("low");
+      const high = document.getElementById("high");
+      const guessNum = document.getElementById("guessNum");
+      const looser = document.getElementById("looser");
+      const congrats = document.getElementById("congrats");
+
+      let guess = [];
+        let x = Math.random() * 101;
+        let y = Math.floor(x);
+        console.log(y);
+      let num;
+      function inputFun(event) {
+        let number = event.target.value;
+        num = parseInt(number);
+      }
+
+      function submitFun() {
+        if (inputValue.value === "") {
+          inputValue.placeholder = "Please Enter A Number ";
+          submit.style.backgroundColor = "red";
+          submit.style.color = "white";
+        } else {
+          inputValue.value = "";
+          submit.style.backgroundColor = "green";
+          submit.style.color = "white";
+          guess.push(num);
+          guessNum.innerHTML = "Your Guesses :" + guess.join(", ");
+
+          if (num > y) {
+            high.style.display = "block";
+            low.style.display = "none";
+
+          } else if (num < y) {
+            low.style.display = "block";
+            high.style.display = "none";
+
+          } else if (num === y) {
+            won.style.display = "block";
+            inputValue.disabled = true;
+            inputValue.style.cursor = "not-allowed";
+
+            start.style.cursor = "pointer";
+            start.disabled = false;
+            start.style.backgroundColor = "green";
+            start.style.color = "white";
+
+            submit.style.cursor = "not-allowed";
+            submit.style.backgroundColor = "red";
+            submit.style.color = "white";
+            looser.style.display = "none";
+            low.style.display = "none";
+
+
+          }
+        }
+        if (guess.length > 4) {
+          console.log(guess.length);
+          submit.style.backgroundColor = "red";
+          submit.style.color = "white";
+          start.style.backgroundColor = "green";
+          start.style.color = "white";
+      
+          if (num === y) {
+        onFinishGame("You won!");
+      } else {
+        onFinishGame("You lost! The number was " + y);
+      }
+        }
+      }
+      function onFinishGame(message) {
+        looser.style.display = "block";
+        looser.textContent = message;
+        start.disabled = false;
+        start.style.cursor = "pointer";
+        submit.disabled = true;
+        submit.style.cursor = "not-allowed";
+        inputValue.disabled = true;
+        inputValue.style.cursor = "not-allowed";
+        won.style.display = "none";
+
+        low.style.display = "none";
+        high.style.display = "none";
+      }
+
+      function startFun() {
+        // x = Math.random() * 101;
+        // y = Math.floor(x);
+        // console.log(y);
+        start.style.background = "white";
+        start.style.color = "black";
+        // Reset input field
+        inputValue.value = "";
+        inputValue.style.backgroundColor = "initial";
+
+        // Reset messages
+        won.style.display = "none";
+        low.style.display = "none";
+        high.style.display = "none";
+        looser.style.display = "none";
+
+        // Enable input and submit button
+        inputValue.disabled = false;
+        inputValue.style.cursor = "pointer";
+        submit.disabled = false;
+        submit.style.cursor = "pointer";
+
+        // Disable start button
+        start.disabled = true;
+        start.style.cursor = "not-allowed";
+
+        // Clear guess history
+        guess = [];
+        guessNum.innerHTML = "";
+
+        // Clear loser message
+        looser.textContent = "";
+        window.location.reload();
+      }
+    </script>
+  </body>
+</html>

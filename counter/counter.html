@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <p id="para">0</p>
+        <button id="decrease" onclick="decreaseFun()">-</button>
+        <button id="increase" onclick="increaseFun()">+</button>
+        <input id="multiply" type="number" oninput="updateMultiplier()" value=1 >
+        <button id="reset" onclick="resetFun()">reset</button>
+
+    </div>
+    <script>
+        const para=document.getElementById("para");
+        const decrease=document.getElementById("decrease")
+        const increase=document.getElementById("increase")
+        const reset=document.getElementById("reset")
+        const multiply=document.getElementById("multiply");
+        
+        var result=1;
+        var count=0;
+
+
+        function resetFun() {
+            count = 0;
+            updateCount();
+        }
+    
+        // function multiplyFun(e) {
+        //     var number = event.target.value;
+        //     result = parseInt(number);
+        // }
+        function updateMultiplier() {
+            var number = multiply.value;
+            result = Math.max(1, parseInt(number)); // Ensure result is not negative or zero
+            multiply.value = result; // Update input field with the corrected value
+        }
+        // console.log(multiplyFun());
+
+        function updateCount(){
+            para.innerHTML=count;
+        }
+        // decrease.addEventListener('click',()=>{
+        //     count--;
+        //     updateCount()
+
+        //     console.log(count)
+        // })
+        // increase.addEventListener('click',()=>{
+        //     count++
+        //     updateCount()
+
+        //     console.log(count)
+
+        // })
+        // increase.addEventListener('click', increaseFun);
+        // decrease.addEventListener('click', decreaseFun);
+
+        function increaseFun(){
+            // if(result===0 || result===""){
+            //     count++;
+            //     console.log(count);
+            // }else{
+            //     count=count+result;
+            // }
+            count=count+result;
+            updateCount();
+        }
+        function decreaseFun() {
+            if (result > count) {
+                count = 0;
+            } else {
+                count = count - result;
+            }
+            updateCount();
+        }
+
+    </script>
+</body>
+</html>
